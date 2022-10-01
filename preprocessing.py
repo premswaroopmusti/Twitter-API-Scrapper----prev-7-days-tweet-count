@@ -25,10 +25,10 @@ def pichle_saath_din(df):
 
     c = a + b
 
-    w = c[:101]
-    x = c[101:201]
-    y = c[201:301]
-    z = c[301:]
+    w = c[:100]
+    x = c[100:200]
+    y = c[200:300]
+    z = c[300:]
 
     API_KEY = " lucRPh8PJNSphYSDtxNhKQi38"
     API_SECRET = "z6DWl5uZQyb4cltb15ZCco7i8PK1vpk9NeXuxEWIUuc1t6IbZU"
@@ -59,7 +59,7 @@ def pichle_saath_din(df):
             for count in counts.data:
                     final_count += count["tweet_count"]
 
-            a = (f'for {i} : {final_count}')
+            a = (f'{i} : {final_count}')
             w_7_days.append(a)
 
     client = tweepy.Client(bearer_token=BEARER_TOKEN, wait_on_rate_limit=True)
@@ -85,7 +85,7 @@ def pichle_saath_din(df):
             for count in counts.data:
                     final_count += count["tweet_count"]
 
-            a = (f'for {i} : {final_count}')
+            a = (f'{i} : {final_count}')
             x_7_days.append(a)
 
     client = tweepy.Client(bearer_token=BEARER_TOKEN, wait_on_rate_limit=True)
@@ -113,7 +113,7 @@ def pichle_saath_din(df):
             for count in counts.data:
                     final_count += count["tweet_count"]
 
-            a = (f'for {i} : {final_count}')
+            a = (f'{i} : {final_count}')
             y_7_days.append(a)
 
     client = tweepy.Client(bearer_token=BEARER_TOKEN, wait_on_rate_limit=True)
@@ -140,7 +140,7 @@ def pichle_saath_din(df):
                     final_count += count["tweet_count"]
 
 
-            a = (f'for {i} : {final_count}')
+            a = (f'{i} : {final_count}')
             z_7_days.append(a)
 
 
@@ -157,14 +157,35 @@ def pichle_saath_din(df):
     keywithcount_a = pd.DataFrame(keywithcount_a)
     keywithcount_a.set_axis(['Keywords', 'Count', 'rohit'], axis='columns', inplace=True)
     keywithcount_a.drop(['Count'], axis=1, inplace=True)
-    keywithcount_a.sort_values(by=['rohit'], inplace=True, ascending=False)
 
-    c1 = keywithcount_a['rohit'].values
-    keyword = keywithcount_a['Keywords'].values
+    count = keywithcount_a['rohit']
+    key = keywithcount_a['Keywords']
 
+    key1 = key[0:200].values
+    key2 = key[200:].values
 
-    love = {'keyword': keyword[0:50], 'count': c1[0:50]}
-    love = pd.DataFrame(love)
-    print(love)
-    return love
+    count1 = count[0:200].values
+    count2 = count[200:].values
 
+    keywords = []
+    realcount = []
+    realkeyword = []
+    for i in range(200):
+        keys = []
+        keys.append(key[i])
+        keys.append(key[200 + i])
+        keywords.append(keys)
+        realcount.append(count[i] + count[200 + i])
+
+    for i in keywords:
+        realkeyword.append(','.join(i))
+
+    antha_real = pd.DataFrame(list(zip(realkeyword, realcount)),
+                              columns=['realkeyword', 'realcount'])
+
+    antha_real.sort_values(by=['realcount'], inplace=True, ascending=False)
+    chaabi = antha_real['realkeyword'].head(50)
+    ginti = antha_real['realcount'].head(50)
+    pellisupulu = {'keyword': chaabi, 'count': ginti}
+    pellisupulu = pd.DataFrame(pellisupulu)
+    return pellisupulu

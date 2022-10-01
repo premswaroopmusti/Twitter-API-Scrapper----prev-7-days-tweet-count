@@ -16,5 +16,5 @@ time = 'Last 7 days count'
 
 if(time == 'Last 7 days count'):
     st.header("Previous 7 days count")
-    st.bar_chart(data = saath_din, x = 'keyword' ,y = 'count')
+    st.bar_chart(data = saath_din, x = 'keyword',y = 'count')
 
